@@ -1,0 +1,339 @@
+Identification_Information:
+  Citation:
+    Citation_Information:
+      Originator: DNLMMP, SURVEYS DEPARTMENT
+      Publication_Date: 19800101
+      Title: VILLAGES OF MALAWI
+      Edition: 2
+      Geospatial_Data_Presentation_Form: Map
+      Publication_Information:
+        Publication_Place: Blantyre
+        Publisher: Malawi Government
+      Other_Citation_Details:
+        Users noting corrections or additions to this map are
+        requested to annotate and send them to the Surveyor General
+        P. O. Box 349, Blantyre, MALAWI.
+      Larger_Work_Citation:
+        Citation_Information:
+          Originator: Department of Surveys
+          Publication_Date: 19800101
+          Title: 1:250,000 Topographic Series
+          Publication_Information:
+            Publication_Place: Blantyre
+            Publisher: Malawi Government
+          Online_Linkage:
+  Description:
+    Abstract:
+      This POINT feature  for the  10 sheets of 1;250,000
+      series, created by DNLMMP as national reference data sets
+      for 250,000 topographic series.
+    Purpose: To be used for GIS analysis at 1:250000 scale and smaller.
+    Supplemental_Information:
+      Bounding Sheets
+      North
+  Time_Period_of_Content:
+    Time_Period_Information:
+      Single_Date/Time:
+        Calendar_Date: The year (and optionally month, or month and day) for which the data set corresponds to the ground.  REQUIRED.
+      Range_of_Dates/Times:
+    Currentness_Reference: The basis on which the time period of content information is determined.  REQUIRED.
+  Status:
+    Progress: Complete
+    Maintenance_and_Update_Frequency: Continually
+  Spatial_Domain:
+    Bounding_Coordinates:
+      West_Bounding_Coordinate: 32.6710
+      East_Bounding_Coordinate: 35.9502
+      North_Bounding_Coordinate: -9.3546
+      South_Bounding_Coordinate: -17.1464
+  Keywords:
+    Theme:
+      Theme_Keyword_Thesaurus: None
+      Theme_Keyword: Topographic
+    Place:
+      Place_Keyword_Thesaurus: None
+      Place_Keyword: National
+  Access_Constraints: No Restrictions
+  Use_Constraints:
+    To be by the buyer only. NOT for reselll. The Surveyor
+    General is only one who sells these data sets.
+  Point_of_Contact:
+    Contact_Information:
+      Contact_Person_Primary:
+        Contact_Person: Surveyor General
+        Contact_Organization: Department of Surveys
+      Contact_Position: Surveyor General
+      Contact_Address:
+        Address_Type: mailing and physical address
+        Address: Box 349
+        City: Blantyre
+        State_or_Province: Southern Region
+        Country: Malawi
+      Contact_Voice_Telephone: (265) 623 165
+      Contact_Facsimile_Telephone: (265) 634 034
+      Hours_of_Service: 8:00am - 5:00pm
+  Security_Information:
+    Security_Classification: Sensitive
+  Native_Data_Set_Environment:
+    ArcView version 3.2 shapefile format
+    j:\250k\topo\national\avshapes\village.shp
+  Cross_Reference:
+    Citation_Information:
+      Originator: DNLMMP, SURVEYS DEPARTMENT
+      Title: MALAWI VILLAGES   250000
+      Series_Information:
+        Series_Name: TOPOGRAPHIC SERIES 250000
+      Publication_Information:
+        Publication_Place: LILONGWE MALAWI
+        Publisher: DNLMMP
+Data_Quality_Information:
+  Attribute_Accuracy:
+  Positional_Accuracy:
+    Horizontal_Positional_Accuracy:
+      Horizontal_Positional_Accuracy_Report: This could the most  accurate data for villages in Malawi. Since was created from village point coordinates.
+    Vertical_Positional_Accuracy:
+  Lineage:
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator:
+          Publication_Date: 19910101
+          Title: MALAWI TRADITIONAL AUTHORITY BOUNDARIES
+          Edition: 2
+          Geospatial_Data_Presentation_Form: map
+          Publication_Information:
+            Publication_Place: Lilongwe
+            Publisher: DNLMMP
+          Other_Citation_Details:
+          Online_Linkage:
+          Larger_Work_Citation:
+            Citation_Information:
+              Originator: Department of Surveys
+              Publication_Date: 19910101
+              Title: 1:250000 Topographic Series
+              Publication_Information:
+                Publication_Place: Lilongwe
+                Publisher: Malawi Government
+              Online_Linkage:
+      Source_Scale_Denominator: 250000
+      Type_of_Source_Media: Village Cordinates from an Atlass of Malawi produced by Surveys Department
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Range_of_Dates/Times:
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator:
+          Publication_Date: 19910101
+          Title: MALAWI TRADITIONAL AUTHORITY BOUNDARIES
+          Edition: 2
+          Geospatial_Data_Presentation_Form: map
+          Publication_Information:
+            Publication_Place: Lilongwe
+            Publisher: DNLMMP
+          Other_Citation_Details:
+          Online_Linkage:
+          Larger_Work_Citation:
+            Citation_Information:
+              Originator: Department of Surveys
+              Publication_Date: 19910101
+              Title: 1:250,000
+              Publication_Information:
+                Publication_Place: Lilongwe
+                Publisher: Malawi Government
+              Online_Linkage:
+      Source_Scale_Denominator: 250000
+      Type_of_Source_Media: Original Separate (Drafting film)
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Range_of_Dates/Times:
+            Beginning_Date:
+            Ending_Date:
+        Source_Currentness_Reference:
+      Source_Citation_Abbreviation:
+      Source_Contribution:
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator:
+          Publication_Date: 19910101
+          Title: MALAWI TRADITIONAL AUTHORITY BOUNDARIES
+          Edition: 2
+          Geospatial_Data_Presentation_Form: map
+          Publication_Information:
+            Publication_Place: Lilongwe
+            Publisher: DNLMMP
+          Other_Citation_Details:
+          Online_Linkage:
+          Larger_Work_Citation:
+            Citation_Information:
+              Originator: Department of Surveys
+              Publication_Date: 19910101
+              Title: 1
+              Publication_Information:
+                Publication_Place: Lilongwe
+                Publisher: Malawi Government
+              Online_Linkage:
+      Source_Scale_Denominator: 250000
+      Type_of_Source_Media: Original Separate (Drafting film)
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Range_of_Dates/Times:
+            Beginning_Date:
+            Ending_Date:
+        Source_Currentness_Reference:
+      Source_Citation_Abbreviation:
+      Source_Contribution:
+    Process_Step:
+      Process_Description:
+        The Village names and coordinates were scanned and as text by OCR (Optical Character Recognition) facility of HP IRIS
+        Cleaning of the data was done in ESRI ArcInfo 8.0.2.
+        The shapefile was made by ArcView 3.2
+      Process_Contact:
+        Contact_Information:
+          Contact_Person_Primary:
+            Contact_Person: Jeff Mzembe
+            Contact_Organization: DNLMMP
+          Contact_Position: Manager
+          Contact_Address:
+            Address_Type: mailing and physical address
+            Address: PO Box 635
+            City: Lilongwe
+            State_or_Province: Central Region
+            Country: Malawi
+          Contact_Voice_Telephone: 751849
+          Contact_Facsimile_Telephone: 751849
+          Hours_of_Service: 8:00am - 5:00pm
+Spatial_Data_Organization_Information:
+  Direct_Spatial_Reference_Method: Vector
+  Point_and_Vector_Object_Information:
+    SDTS_Terms_Description:
+      SDTS_Point_and_Vector_Object_Type: Label point
+      Point_and_Vector_Object_Count: 150
+    SDTS_Terms_Description:
+      SDTS_Point_and_Vector_Object_Type: Point
+      Point_and_Vector_Object_Count: 4
+Spatial_Reference_Information:
+  Horizontal_Coordinate_System_Definition:
+    Planar:
+      Map_Projection:
+        Map_Projection_Name: Transverse Mercator
+        Transverse_Mercator:
+          Scale_Factor_at_Central_Meridian: 0.999600
+          Longitude_of_Central_Meridian: 33.000000
+          False_Easting: 1000000.000000
+          False_Northing: 10000000.000000
+      Planar_Coordinate_Information:
+        Planar_Coordinate_Encoding_Method: coordinate pair
+        Coordinate_Representation:
+          Abscissa_Resolution: 0.000680
+          Ordinate_Resolution: 0.000680
+        Planar_Distance_Units: meters
+    Geodetic_Model:
+      Horizontal_Datum_Name: ARC 1960
+      Ellipsoid_Name: CLARKE 1880
+      Semi-major_Axis: 6378249.145
+      Denominator_of_Flattening_Ratio: 1/293.46500(0.003407561)
+  Vertical_Coordinate_System_Definition:
+    Altitude_System_Definition:
+      Altitude_Datum_Name: Arc 1960
+      Altitude_Distance_Units: meters
+      Altitude_Encoding_Method: Attribute values
+Entity_and_Attribute_Information:
+  Detailed_Description:
+    Entity_Type:
+      Entity_Type_Label: villages
+    Attribute:
+      Attribute_Label: FID
+    Attribute:
+      Attribute_Label: Shape
+    Attribute:
+      Attribute_Label: AREA
+    Attribute:
+      Attribute_Label: PERIMETER
+    Attribute:
+      Attribute_Label: VILLAGESCO
+    Attribute:
+      Attribute_Label: VILLAGES_1
+    Attribute:
+      Attribute_Label: ID
+    Attribute:
+      Attribute_Label: NAME_
+    Attribute:
+      Attribute_Label: FEATURE_
+    Attribute:
+      Attribute_Label: DMS_Y
+    Attribute:
+      Attribute_Label: DMS_X
+    Attribute:
+      Attribute_Label: DD_X
+    Attribute:
+      Attribute_Label: DD_Y
+    Attribute:
+      Attribute_Label: DD_Y1
+    Attribute:
+      Attribute_Label: $ID
+    Attribute:
+      Attribute_Label: $POLYGONID
+    Attribute:
+      Attribute_Label: $SCALE
+    Attribute:
+      Attribute_Label: $ANGLE
+  Overview_Description:
+Distribution_Information:
+  Distributor:
+    Contact_Information:
+      Contact_Organization_Primary:
+        Contact_Organization: Department of Surveys
+        Contact_Person: Surveyor General
+      Contact_Position: Surveyor General
+      Contact_Address:
+        Address_Type: mailing and physical address
+        Address: Box 349
+        City: Blantyre
+        State_or_Province: Southern Region
+        Postal_Code:
+        Country: Malawi
+      Contact_Voice_Telephone: (265) 623 165
+      Contact_Facsimile_Telephone: (265) 634 034
+      Contact_Electronic_Mail_Address:
+      Hours_of_Service: 8:00am - 5:00pm
+  Standard_Order_Process:
+    Digital_Form:
+      Digital_Transfer_Information:
+        Format_Name: SHP
+        File_Decompression_Technique: No compression applied
+        Transfer_Size: 3.627
+      Digital_Transfer_Option:
+        Online_Option:
+          Computer_Contact_Information:
+            Network_Address:
+              Network_Resource_Name: \\DNLM-PDC\CorpDB\250K\Topo\National\Avshapes\Mw_villages.shp
+          Access_Instructions: Local area network
+Metadata_Reference_Information:
+  Metadata_Date: 20010314
+  Metadata_Contact:
+    Contact_Information:
+      Contact_Organization_Primary:
+        Contact_Organization: DNLMMP
+        Contact_Person: Jeff Mzembe
+      Contact_Position: Manager
+      Contact_Address:
+        Address_Type: Mailing and physical address
+        Address: PO Box 635
+        City: Lilongwe
+        State_or_Province: Central Region
+        Postal_Code: The ZIP or other postal code of the address.  REQUIRED.
+        Country: Malawi
+      Contact_Voice_Telephone: 751849
+      Contact_Facsimile_Telephone: 751849
+      Hours_of_Service: 8:00am - 5:00pm
+  Metadata_Standard_Name: FGDC CSDGM
+  Metadata_Standard_Version: FGDC-STD-001-1998
+  Metadata_Time_Convention: local time
+  Metadata_Access_Constraints: NO restrictions
+  Metadata_Security_Information:
+    Metadata_Security_Classification: Sensitive
+  Metadata_Extensions:
+    Online_Linkage: http://www.esri.com/metadata/esriprof80.html
+    Profile_Name: ESRI Metadata Profile

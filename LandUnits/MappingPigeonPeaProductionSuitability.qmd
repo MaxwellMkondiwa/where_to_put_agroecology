@@ -1,0 +1,84 @@
+---
+title: "Mapping suitability"
+format: html
+editor: visual
+---
+
+# ADD Production and Yield Maps
+
+```{r}
+library(sf)
+
+add_map=read_sf("Shapefiles/malawi_add_l.shp")
+plot(add_map)
+
+
+pp2019=read.csv("Pigeonpea_2019.csv")
+
+add_pp2019=merge(add_map,pp2019, by="ADD_NAME")
+
+
+add_pp2019_sp=as_Spatial(add_pp2019)
+
+library(tmap)
+tmap_mode("plot")
+
+p1=tm_shape(add_pp2019_sp) +
+  tm_polygons(col = "Prodn_t",palette = "-viridis", title = "Production (metric tons)", style = "quantile", textNA = "Lake Malawi") +
+  tm_style("col_blind")+
+  tm_layout(legend.outside = TRUE,title.size=4)
+p1
+tmap_save(p1, "ProductionMap.png",height=5,width=5)
+
+p2=tm_shape(add_pp2019_sp) +
+  tm_polygons(col = "Yield_kg_ha",palette = "-viridis", title = "Yields (kg per ha)", style = "quantile", textNA = "Lake Malawi") +
+  tm_style("col_blind")+
+  tm_layout(legend.outside = TRUE,title.size=4)
+    
+p2
+tmap_save(p2, "YieldMap.png",height=5,width=5)
+
+p3=tmap_arrange(p1, p2)
+p3
+
+tmap_save(p3, "ProductionYieldMaps.png",height=5,width=5)
+
+
+
+
+```
+
+# Suitability map
+
+```{r}
+
+landunits=read_sf("MW_land_units/land_units_1st_code_fnl_ADD_specific.shp")
+
+landunits$T_Pigeonpe_suit[landunits$T_Pigeonpe%in%c("1","2")]="1:Highly suitable"
+
+landunits$T_Pigeonpe_suit[landunits$T_Pigeonpe%in%c("3","4")]="2:Moderately suitable"
+
+landunits$T_Pigeonpe_suit[landunits$T_Pigeonpe%in%c("5","6")]="3:Marginally suitable"
+
+landunits$T_Pigeonpe_suit[landunits$T_Pigeonpe%in%c("7")]="4:Not suitable"
+
+landunits$T_Pigeonpe_suit[landunits$I_Pigeonpe%in%c("9")]=NA
+
+
+landunits_sp=as_Spatial(landunits)
+
+library(tmap)
+tmap_mode("plot")
+
+pp_suitability_map=tm_shape(landunits_sp) +
+tm_polygons(col = "T_Pigeonpe_suit",palette = "-viridis", title = "Pigeopea suitability class",     textNA = "Suitability not estimated",border.alpha = 0.1) +
+  tm_layout(legend.outside = TRUE,title.size=4)+
+  tmap_options(check.and.fix = TRUE)
+pp_suitability_map
+
+tmap_save(pp_suitability_map, "pp_suitability_map.png",height=5,width=5)
+
+
+
+
+```

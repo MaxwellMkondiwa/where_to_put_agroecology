@@ -1,0 +1,5 @@
+&REM NAD-27 Latitude/Longitude, Scalars in Degrees of Latitude
+&REM LL
+PROJECTION GEOGRAPHIC
+UNITS DD
+PARAMETERS
