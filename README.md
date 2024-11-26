@@ -1,4 +1,4 @@
-# The Spatial Bioeconomic Optimization Model for Agroecology (spBiMA) [NCOMPLETE MODEL, do not use]
+# The Spatial Bioeconomic Optimization Model for Agroecology (spBiMA) [INCOMPLETE MODEL, do not use]
 
 ### About
 This tool uses code provided by CoMOLA (Constrained Multi-objective Optimisation of Land use Allocation) (Strauch et al 2018) and COMOLA-SWAT plus OPTAIN (Strauch and Shurz et al 2024). 
