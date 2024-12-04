@@ -1,5 +1,5 @@
 setwd("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Suitability")
-sink("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Suitability/console.txt", append=FALSE)
+sink("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Suitability/console.txt", append = FALSE)
 ##########################################################################################
 #
 #     ~ ~ ~ Simple Yield Model (SYM) ~ ~ ~
@@ -30,9 +30,6 @@ yield.sum <- sum(yield)
 
 # write model output
 write.table(yield.sum , "CSM_output.csv",append=FALSE ,sep =";",col.names=FALSE ,row.names=FALSE)
-
-
-
 
 
 

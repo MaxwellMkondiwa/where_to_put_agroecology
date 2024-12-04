@@ -23,7 +23,8 @@ file_out <- "metrics.txt"
 
 ### Extract results if any results are available and feasible
 setwd(opt_path)
-logfile<-file(dir(pattern="_log"),"r+")
+logfile <- file("04-12-2024_16-48-36_optimization_log.txt")
+#logfile<-file(dir(pattern="_log"),"r+")
 text<-readLines(logfile)
 close(logfile)
 
@@ -63,118 +64,136 @@ if (any(grep("Best Solutions", text) > 0)) {
   }
 }
 
+
+  bestfit_df <- data.frame(do.call(rbind, strsplit(bestfit, ", ", fixed = TRUE)))
+  bestfit_df <- data.frame(lapply(bestfit_df, as.numeric))
+  names(bestfit_df) <- paste0("fit", 1:length(bestfit_df))
+
+
+  bestind_df <- data.frame(do.call(cbind, strsplit(bestind, ", ", fixed = TRUE)))
+  bestind_df <- data.frame(lapply(bestind_df, as.numeric))
+  names(bestind_df) <- paste0("ind", 1:length(bestind_df))
+
+
+
+
+
+
+
+
+
 ### get maps for single maxima and compromise solution
 # read in fitness values of best solutions
-best.sol <- read.table("bestfit.txt", h=F, sep =",")
-nobj <- length(best.sol)
-best.sol$ID <- c(1:dim(best.sol)[1])
+# best.sol <- read.table("bestfit.txt", h=F, sep =",")
+# nobj <- length(best.sol)
+# best.sol$ID <- c(1:dim(best.sol)[1])
 
-if(nobj==2){
-  # extract only feasible solutions
-  best.sol <- best.sol[which(best.sol$ID %in% feasible),]
-  names(best.sol) <- c("obj1","obj2","ID")
+# if(nobj==2){
+#   # extract only feasible solutions
+#   best.sol <- best.sol[which(best.sol$ID %in% feasible),]
+#   names(best.sol) <- c("obj1","obj2","ID")
   
-  setwd(opt_path)
-  # objective 1
-  sol_max1 <- best.sol[which.max(best.sol$obj1),c(1:2)]
-  ID_max1 <- best.sol[which.max(best.sol$obj1),3]
-  map_max1 <- read.asc(dir(pattern=paste("map",ID_max1,".asc",sep="")), gz = FALSE)
+#   setwd(opt_path)
+#   # objective 1
+#   sol_max1 <- best.sol[which.max(best.sol$obj1),c(1:2)]
+#   ID_max1 <- best.sol[which.max(best.sol$obj1),3]
+#   map_max1 <- read.asc(dir(pattern=paste("map",ID_max1,".asc",sep="")), gz = FALSE)
   
-  # objective 2
-  sol_max2 <- best.sol[which.max(best.sol$obj2),c(1:2)]
-  ID_max2 <- best.sol[which.max(best.sol$obj2),3]
-  map_max2 <- read.asc(dir(pattern=paste("map",ID_max2,".asc",sep="")), gz = FALSE)
+#   # objective 2
+#   sol_max2 <- best.sol[which.max(best.sol$obj2),c(1:2)]
+#   ID_max2 <- best.sol[which.max(best.sol$obj2),3]
+#   map_max2 <- read.asc(dir(pattern=paste("map",ID_max2,".asc",sep="")), gz = FALSE)
   
-  # Compromise solution (sum of deviations from single mean values is minimal)
-  which.mean <- function(x,y) which.min(abs(x - mean(x))+abs(y - mean(y)))
-  sol_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2),c(1:2)]
-  ID_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2),3]
-  map_compromise <- read.asc(dir(pattern=paste("map",ID_compromise,".asc",sep="")), gz = FALSE)
+#   # Compromise solution (sum of deviations from single mean values is minimal)
+#   which.mean <- function(x,y) which.min(abs(x - mean(x))+abs(y - mean(y)))
+#   sol_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2),c(1:2)]
+#   ID_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2),3]
+#   map_compromise <- read.asc(dir(pattern=paste("map",ID_compromise,".asc",sep="")), gz = FALSE)
   
-  setwd(post_path)
+#   setwd(post_path)
   
-  write.asc(map_max1, "map_max1.asc")
-  write.asc(map_max2, "map_max2.asc")
-  write.asc(map_compromise, "map_compromise.asc") 
-}
+#   write.asc(map_max1, "map_max1.asc")
+#   write.asc(map_max2, "map_max2.asc")
+#   write.asc(map_compromise, "map_compromise.asc") 
+# }
 
-if(nobj==3){
-  # extract only feasible solutions
-  best.sol <- best.sol[which(best.sol$ID %in% feasible),]
-  names(best.sol) <- c("obj1","obj2","obj3","ID")
+# if(nobj==3){
+#   # extract only feasible solutions
+#   best.sol <- best.sol[which(best.sol$ID %in% feasible),]
+#   names(best.sol) <- c("obj1","obj2","obj3","ID")
   
-  ### get solutions for single maxima
-  setwd(opt_path)
-  # objective 1
-  sol_max1 <- best.sol[which.max(best.sol$obj1),c(1:3)]
-  ID_max1 <- best.sol[which.max(best.sol$obj1),4]
-  map_max1 <- read.asc(dir(pattern=paste("map",ID_max1,".asc",sep="")), gz = FALSE)
+#   ### get solutions for single maxima
+#   setwd(opt_path)
+#   # objective 1
+#   sol_max1 <- best.sol[which.max(best.sol$obj1),c(1:3)]
+#   ID_max1 <- best.sol[which.max(best.sol$obj1),4]
+#   map_max1 <- read.asc(dir(pattern=paste("map",ID_max1,".asc",sep="")), gz = FALSE)
   
-  # objective 2
-  sol_max2 <- best.sol[which.max(best.sol$obj2),c(1:3)]
-  ID_max2 <- best.sol[which.max(best.sol$obj2),4]
-  map_max2 <- read.asc(dir(pattern=paste("map",ID_max2,".asc",sep="")), gz = FALSE)
+#   # objective 2
+#   sol_max2 <- best.sol[which.max(best.sol$obj2),c(1:3)]
+#   ID_max2 <- best.sol[which.max(best.sol$obj2),4]
+#   map_max2 <- read.asc(dir(pattern=paste("map",ID_max2,".asc",sep="")), gz = FALSE)
   
-  # objective 3
-  sol_max3 <- best.sol[which.max(best.sol$obj3),c(1:3)]
-  ID_max3 <- best.sol[which.max(best.sol$obj3),4]
-  map_max3 <- read.asc(dir(pattern=paste("map",ID_max3,".asc",sep="")), gz = FALSE)
+#   # objective 3
+#   sol_max3 <- best.sol[which.max(best.sol$obj3),c(1:3)]
+#   ID_max3 <- best.sol[which.max(best.sol$obj3),4]
+#   map_max3 <- read.asc(dir(pattern=paste("map",ID_max3,".asc",sep="")), gz = FALSE)
   
-  # Compromise solution (sum of deviations from single mean values is minimal)
-  which.mean <- function(x,y) which.min(abs(x - mean(x))+abs(y - mean(y))+abs(z - mean(z)))
-  sol_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2,best.sol$obj3),c(1:3)]
-  ID_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2,best.sol$obj3),4]
-  map_compromise <- read.asc(dir(pattern=paste("map",ID_compromise,".asc",sep="")), gz = FALSE)
+#   # Compromise solution (sum of deviations from single mean values is minimal)
+#   which.mean <- function(x,y) which.min(abs(x - mean(x))+abs(y - mean(y))+abs(z - mean(z)))
+#   sol_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2,best.sol$obj3),c(1:3)]
+#   ID_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2,best.sol$obj3),4]
+#   map_compromise <- read.asc(dir(pattern=paste("map",ID_compromise,".asc",sep="")), gz = FALSE)
   
-  setwd(post_path)
+#   setwd(post_path)
   
-  write.asc(map_max1, "map_max1.asc")
-  write.asc(map_max2, "map_max2.asc")
-  write.asc(map_max3, "map_max3.asc")
-  write.asc(map_compromise, "map_compromise.asc") 
-}
+#   write.asc(map_max1, "map_max1.asc")
+#   write.asc(map_max2, "map_max2.asc")
+#   write.asc(map_max3, "map_max3.asc")
+#   write.asc(map_compromise, "map_compromise.asc") 
+# }
 
-if(nobj==4){
-  # extract only feasible solutions
-  best.sol <- best.sol[which(best.sol$ID %in% feasible),]
-  names(best.sol) <- c("obj1","obj2","obj3","obj4","ID")
+# if(nobj==4){
+#   # extract only feasible solutions
+#   best.sol <- best.sol[which(best.sol$ID %in% feasible),]
+#   names(best.sol) <- c("obj1","obj2","obj3","obj4","ID")
   
-  ### get solutions for single maxima
-  setwd(opt_path)
-  # objective 1
-  sol_max1 <- best.sol[which.max(best.sol$obj1),c(1:4)]
-  ID_max1 <- best.sol[which.max(best.sol$obj1),5]
-  map_max1 <- read.asc(dir(pattern=paste("map",ID_max1,".asc",sep="")), gz = FALSE)
+#   ### get solutions for single maxima
+#   setwd(opt_path)
+#   # objective 1
+#   sol_max1 <- best.sol[which.max(best.sol$obj1),c(1:4)]
+#   ID_max1 <- best.sol[which.max(best.sol$obj1),5]
+#   map_max1 <- read.asc(dir(pattern=paste("map",ID_max1,".asc",sep="")), gz = FALSE)
   
-  # objective 2
-  sol_max2 <- best.sol[which.max(best.sol$obj2),c(1:4)]
-  ID_max2 <- best.sol[which.max(best.sol$obj2),5]
-  map_max2 <- read.asc(dir(pattern=paste("map",ID_max2,".asc",sep="")), gz = FALSE)
+#   # objective 2
+#   sol_max2 <- best.sol[which.max(best.sol$obj2),c(1:4)]
+#   ID_max2 <- best.sol[which.max(best.sol$obj2),5]
+#   map_max2 <- read.asc(dir(pattern=paste("map",ID_max2,".asc",sep="")), gz = FALSE)
   
-  # objective 3
-  sol_max3 <- best.sol[which.max(best.sol$obj3),c(1:4)]
-  ID_max3 <- best.sol[which.max(best.sol$obj3),5]
-  map_max3 <- read.asc(dir(pattern=paste("map",ID_max3,".asc",sep="")), gz = FALSE)
+#   # objective 3
+#   sol_max3 <- best.sol[which.max(best.sol$obj3),c(1:4)]
+#   ID_max3 <- best.sol[which.max(best.sol$obj3),5]
+#   map_max3 <- read.asc(dir(pattern=paste("map",ID_max3,".asc",sep="")), gz = FALSE)
   
-  # objective 4
-  sol_max4 <- best.sol[which.max(best.sol$obj4),c(1:4)]
-  ID_max4 <- best.sol[which.max(best.sol$obj4),5]
-  map_max4 <- read.asc(dir(pattern=paste("map",ID_max4,".asc",sep="")), gz = FALSE)
+#   # objective 4
+#   sol_max4 <- best.sol[which.max(best.sol$obj4),c(1:4)]
+#   ID_max4 <- best.sol[which.max(best.sol$obj4),5]
+#   map_max4 <- read.asc(dir(pattern=paste("map",ID_max4,".asc",sep="")), gz = FALSE)
   
-  # Compromise solution (sum of deviations from single mean values is minimal)
-  which.mean <- function(x,y) which.min(abs(x - mean(x))+abs(y - mean(y))+abs(z - mean(z))+abs(a - mean(a)))
-  sol_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2,best.sol$obj3,best.sol$obj4),c(1:4)]
-  ID_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2,best.sol$obj3,best.sol$obj4),5]
-  map_compromise <- read.asc(dir(pattern=paste("map",ID_compromise,".asc",sep="")), gz = FALSE)
+#   # Compromise solution (sum of deviations from single mean values is minimal)
+#   which.mean <- function(x,y) which.min(abs(x - mean(x))+abs(y - mean(y))+abs(z - mean(z))+abs(a - mean(a)))
+#   sol_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2,best.sol$obj3,best.sol$obj4),c(1:4)]
+#   ID_compromise <- best.sol[which.mean(best.sol$obj1,best.sol$obj2,best.sol$obj3,best.sol$obj4),5]
+#   map_compromise <- read.asc(dir(pattern=paste("map",ID_compromise,".asc",sep="")), gz = FALSE)
   
-  setwd(post_path)
+#   setwd(post_path)
   
-  write.asc(map_max1, "map_max1.asc")
-  write.asc(map_max2, "map_max2.asc")
-  write.asc(map_max3, "map_max3.asc")
-  write.asc(map_max4, "map_max4.asc")
-  write.asc(map_compromise, "map_compromise.asc") 
-}
+#   write.asc(map_max1, "map_max1.asc")
+#   write.asc(map_max2, "map_max2.asc")
+#   write.asc(map_max3, "map_max3.asc")
+#   write.asc(map_max4, "map_max4.asc")
+#   write.asc(map_compromise, "map_compromise.asc") 
+# }
  
 ### Calculate performance measures
 ### Please note, they are only meaningful when comparing different runs
@@ -314,25 +333,25 @@ if(length(sol)==2){
 }
 
 # plot for 3 objectives
-if(length(sol)==3){
-  names(sol) <- c("obj1","obj2","obj3")
-  ggplot(sol, aes(x=obj1, y=obj2)) + 
-    geom_point(aes(fill=obj3), shape=21, col="black") +
-    scale_fill_gradientn(colours=viridis(100)) +
-    guides(fill = guide_legend(title="Objective 3")) +
-    xlab("Objective 1")+
-    ylab("Objective 2")
-}
+# if(length(sol)==3){
+#   names(sol) <- c("obj1","obj2","obj3")
+#   ggplot(sol, aes(x=obj1, y=obj2)) + 
+#     geom_point(aes(fill=obj3), shape=21, col="black") +
+#     scale_fill_gradientn(colours=viridis(100)) +
+#     guides(fill = guide_legend(title="Objective 3")) +
+#     xlab("Objective 1")+
+#     ylab("Objective 2")
+# }
 
-# plot for 4 objectives
-if(length(sol)==4){
-  names(sol) <- c("obj1","obj2","obj3","obj4")
-  ggplot(sol, aes(x=obj1, y=obj2)) + 
-    geom_point(aes(size=obj4, fill=obj3), shape=21, col="black") +
-    scale_fill_gradientn(colours=viridis(100)) +
-    guides(size = guide_legend(title="Objective 4", override.aes = list(col = "black")),
-           fill = guide_legend(title="Objective 3")) +
-    xlab("Objective 1")+
-    ylab("Objective 2")
-}
+# # plot for 4 objectives
+# if(length(sol)==4){
+#   names(sol) <- c("obj1","obj2","obj3","obj4")
+#   ggplot(sol, aes(x=obj1, y=obj2)) + 
+#     geom_point(aes(size=obj4, fill=obj3), shape=21, col="black") +
+#     scale_fill_gradientn(colours=viridis(100)) +
+#     guides(size = guide_legend(title="Objective 4", override.aes = list(col = "black")),
+#            fill = guide_legend(title="Objective 3")) +
+#     xlab("Objective 1")+
+#     ylab("Objective 2")
+# }
 

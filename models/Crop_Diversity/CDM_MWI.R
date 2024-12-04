@@ -1,38 +1,36 @@
-setwd("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Suitability")
-sink("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Suitability/console.txt", append=FALSE)
+setwd("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Diversity")
+sink("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Diversity/console.txt", append = FALSE)
 ##########################################################################################
 #
-#     ~ ~ ~ Simple Yield Model (SYM) ~ ~ ~
+#     ~ ~ ~ Simple Crop Diversity Model (CDM) ~ ~ ~
 #     ~ ~ ~ this is just a toy model ~ ~ ~
 #     ~ ~ ~ Input data ~ ~ ~
 #    land_use.asc        |land use map containing the following classes
 #                        |1,2,3,4,5 = arable land with increasing intensity from 1 to 5
-#                   
 #
-#    soil_fertility.asc  |map on soil fertility which can range from 0.1 to 1
+#    crop suitability.asc  |map on soil fertility which can range from 0.1 to 1
 #
-#    Objective: Maximize crop yield
+#    Objective: Maximize crop value of production
 #
 ##########################################################################################
 
 # set working directory
 
 # read in ascii files
-lu.map <- read.table("map.asc", h=F, skip=6, sep=" ")
+lu.map <- read.table("map.asc", h = F, skip = 6, sep = " ")
 
-# array index for arable land
-arable.idx <- which(lu.map <= 10 & lu.map > 0, arr.ind=T)
 
-# calculate crop yield as logarithmic function of intensity and soil fertility
-yield <- lu.map[arable.idx] 
-yield[is.na(yield)] <- 0
-yield.sum <- sum(yield)
+# count land use classes
+lu.n <- rep(0, 10)
+for (i in 1:10) {
+  lu.n[i] <- dim(which(lu.map == i, arr.ind=T))[1]
+}
+
+# Calculate crop diversity as sum of crops
+count_crops.sum <- sum(lu.n * 1)
 
 # write model output
-write.table(yield.sum , "CSM_output.csv",append=FALSE ,sep =";",col.names=FALSE ,row.names=FALSE)
-
-
-
+write.table(count_crops.sum, "CDM_output.csv", append = FALSE, sep = ";", col.names = FALSE, row.names = FALSE)
 
 
 

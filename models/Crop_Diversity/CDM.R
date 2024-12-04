@@ -1,5 +1,5 @@
 setwd("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Diversity")
-sink("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Diversity/console.txt", append = FALSE)
+sink("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology/models/Crop_Diversity/console.txt", append=FALSE)
 ##########################################################################################
 #
 #     ~ ~ ~ Simple Crop Diversity Model (CDM) ~ ~ ~
@@ -17,18 +17,23 @@ sink("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroeco
 # set working directory
 
 # read in ascii files
-lu.map <- read.table("map.asc", h=F, skip=6, sep=" ")
+lu.map <- read.table("map.asc", h = F, skip = 6, sep = " ")
 
-# array index for arable land
-arable.idx <- which(lu.map <= 10 & lu.map > 0, arr.ind=T)
 
-# calculate crop yield as logarithmic function of intensity and soil fertility
-count_crops <- lu.map[arable.idx]
-count_crops[is.na(count_crops)] <- 0
-count_crops.sum <- sum(count_crops)
+# count land use classes
+lu.n <- rep(0, 10)
+for (i in 1:10) {
+  lu.n[i] <- dim(which(lu.map == i, arr.ind=T))[1]
+}
+
+# Calculate crop diversity as sum of crops
+count_crops.sum <- sum(lu.n * 1)
 
 # write model output
 write.table(count_crops.sum, "CDM_output.csv", append = FALSE, sep = ";", col.names = FALSE, row.names = FALSE)
+
+
+
 
 
 

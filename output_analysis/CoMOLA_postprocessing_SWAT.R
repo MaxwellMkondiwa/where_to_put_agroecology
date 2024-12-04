@@ -1,19 +1,21 @@
 ## Define path to your CoMOLA folder
-path <- 'F:/mstrauch/CoMOLA_OPTAIN_CS1'
+path <- "C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroecology"
 
 ## Define names of objectives (fit1, fit2, etc. must correspond with your 
 ## specifications in models/SWAT.R)
 ## Think about including a line break (\n) for long names when indicator should be displayed as color or point size
-fit1 <- 'P load at outlet [kg/a]' # meaningful name for objective 1
-fit2 <- 'Lowflow\n[fraction of days\nbelow threshold]' # meaningful name for objective 2
-fit3 <- 'Crop production\n[sum of grain units/a]' # meaningful name for objective 3
-fit4 <- 'NSWRM costs [???/a]' # meaningful name for objective 4
+fit1 <- 'Crop income' # meaningful name for objective 1
+fit2 <- 'Crop diversity' # meaningful name for objective 2
+#fit3 <- 'Crop production\n[sum of grain units/a]' # meaningful name for objective 3
+#fit4 <- 'NSWRM costs [???/a]' # meaningful name for objective 4
 
 ## Execute the code below (do not modify)
 
 # get functions
 setwd(paste0(path,'/output_analysis'))
-source('functions_postprocessing.R')
+source("functions_postprocessing_SWAT.R")
+setwd(paste0(path, "/output"))
+
 
 foo1(c('mco', 'dplyr', 'tidyverse', 'ggplot2', 'viridis'))
 
