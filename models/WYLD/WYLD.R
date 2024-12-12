@@ -21,7 +21,7 @@ sink("C:/Users/MMKONDIWA/OneDrive - CIMMYT/Documents/GitHub/where_to_put_agroeco
 # set working directory
 
 # read in ascii files
-lu.map <- read.table("models/WYLD/map.asc", h=F, skip=6, sep=" ")
+lu.map <- read.table("map.asc", h=F, skip=6, sep=" ")
 
 # Kc coefficients
 Kc <- c(0.9,0.925,0.95,0.975,1,0.96,1.14)

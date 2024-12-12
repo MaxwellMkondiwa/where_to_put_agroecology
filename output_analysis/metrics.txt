@@ -1,2 +1,2 @@
-n max1 max2 max3 dHV sec
-7 34.6167 67.3068 91.6555 1 33
+n max1 max2 dHV sec
+25 50 189.75 1 239

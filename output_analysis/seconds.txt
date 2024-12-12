@@ -1,1 +1,1 @@
- The optimization process needed 59 seconds.
+ The optimization process needed 239 seconds.

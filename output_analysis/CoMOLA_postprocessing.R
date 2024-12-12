@@ -23,7 +23,7 @@ file_out <- "metrics.txt"
 
 ### Extract results if any results are available and feasible
 setwd(opt_path)
-logfile <- file("04-12-2024_16-48-36_optimization_log.txt")
+logfile <- file("08-12-2024_16-00-02_optimization_log.txt")
 #logfile<-file(dir(pattern="_log"),"r+")
 text<-readLines(logfile)
 close(logfile)
@@ -74,13 +74,7 @@ if (any(grep("Best Solutions", text) > 0)) {
   bestind_df <- data.frame(lapply(bestind_df, as.numeric))
   names(bestind_df) <- paste0("ind", 1:length(bestind_df))
 
-
-
-
-
-
-
-
+write.csv(bestind_df, "bestind_df.csv")
 
 ### get maps for single maxima and compromise solution
 # read in fitness values of best solutions

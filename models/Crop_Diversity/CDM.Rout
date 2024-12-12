@@ -38,18 +38,240 @@ Type 'q()' to quit R.
 > # read in ascii files
 > lu.map <- read.table("map.asc", h = F, skip = 6, sep = " ")
 > 
+> lu.map.12.12 <-lu.map[1:2,1:2]
+> lu.map.12.34 <- lu.map[1:2, 3:4]
+> lu.map.12.56 <- lu.map[1:2, 5:6]
+> lu.map.12.78 <-lu.map[1:2,7:8]
+> lu.map.12.910 <-lu.map[1:2,9:10]
 > 
-> # count land use classes
-> lu.n <- rep(0, 10)
-> for (i in 1:10) {
-+   lu.n[i] <- dim(which(lu.map == i, arr.ind=T))[1]
-+ }
+> lu.map.34.12 <- lu.map[3:4, 1:2]
+> lu.map.34.34 <- lu.map[3:4, 3:4]
+> lu.map.34.56 <- lu.map[3:4, 5:6]
+> lu.map.34.78 <- lu.map[3:4, 7:8]
+> lu.map.34.910 <- lu.map[3:4,9:10]
 > 
-> # Calculate crop diversity as sum of crops
-> count_crops.sum <- sum(lu.n * 1)
+> lu.map.56.12 <- lu.map[5:6, 1:2]
+> lu.map.56.34 <- lu.map[5:6, 3:4]
+> lu.map.56.56 <- lu.map[5:6, 5:6]
+> lu.map.56.78 <- lu.map[5:6, 7:8]
+> lu.map.56.910 <- lu.map[5:6, 9:10]
+> 
+> lu.map.78.12 <- lu.map[7:8, 1:2]
+> lu.map.78.34 <- lu.map[7:8, 3:4]
+> lu.map.78.56 <- lu.map[7:8, 5:6]
+> lu.map.78.78 <- lu.map[7:8, 7:8]
+> lu.map.78.910 <- lu.map[7:8, 9:10]
+> 
+> lu.map.910.12 <- lu.map[9:10, 1:2]
+> lu.map.910.34 <- lu.map[9:10, 3:4]
+> lu.map.910.56 <- lu.map[9:10, 5:6]
+> lu.map.910.78 <- lu.map[9:10, 7:8]
+> lu.map.910.910 <- lu.map[9:10, 9:10]
+> 
+> # # count land use classes
+> # lu.n.12.12 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.12.12[i] <- dim(which(lu.map.12.12 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.12.34 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.12.34[i] <- dim(which(lu.map.12.34 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.12.56 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.12.56[i] <- dim(which(lu.map.12.56 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.12.78 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.12.78[i] <- dim(which(lu.map.12.78 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.12.910 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.12.910[i] <- dim(which(lu.map.12.910 == i, arr.ind = T))[1]
+> # }
+> 
+> # ##### row 34
+> # lu.n.34.12 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.34.12[i] <- dim(which(lu.map.34.12 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.34.34 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.34.34[i] <- dim(which(lu.map.34.34 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.34.56 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.34.56[i] <- dim(which(lu.map.34.56 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.34.78 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.34.78[i] <- dim(which(lu.map.34.78 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.34.910 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.34.910[i] <- dim(which(lu.map.34.910 == i, arr.ind = T))[1]
+> # }
+> 
+> # ## row 56
+> # lu.n.56.12 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.56.12[i] <- dim(which(lu.map.56.12 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.56.34 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.56.34[i] <- dim(which(lu.map.56.34 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.56.56 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.56.56[i] <- dim(which(lu.map.56.56 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.56.78 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.56.78[i] <- dim(which(lu.map.56.78 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.56.910 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.56.910[i] <- dim(which(lu.map.56.910 == i, arr.ind = T))[1]
+> # }
+> 
+> # ## 78
+> # lu.n.78.12 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.78.12[i] <- dim(which(lu.map.78.12 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.78.34 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.78.34[i] <- dim(which(lu.map.78.34 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.78.56 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.78.56[i] <- dim(which(lu.map.78.56 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.78.78 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.78.78[i] <- dim(which(lu.map.78.78 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.78.910 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.78.910[i] <- dim(which(lu.map.78.910 == i, arr.ind = T))[1]
+> # }
+> 
+> # ## 9, 10
+> # lu.n.910.12 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.910.12[i] <- dim(which(lu.map.910.12 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.910.34 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.910.34[i] <- dim(which(lu.map.910.34 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.910.56 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.910.56[i] <- dim(which(lu.map.910.56 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.910.78 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.910.78[i] <- dim(which(lu.map.910.78 == i, arr.ind = T))[1]
+> # }
+> 
+> # lu.n.910.910 <- rep(0, 10)
+> # for (i in 1:10) {
+> #   lu.n.910.910[i] <- dim(which(lu.map.910.910 == i, arr.ind = T))[1]
+> # }
+> 
+> # # Calculate crop diversity as sum of crops
+> # count_crops.sum <- sum(lu.n.12.12 * 1 )+sum(lu.n.34.12 * 1 )+sum(lu.n.56.12 * 1 )+sum(lu.n.78.12 * 1 )+sum(lu.n.910.12 * 1 )+
+> # sum(lu.n.12.34 * 1 )+sum(lu.n.34.34 * 1 )+sum(lu.n.56.34 * 1 )+sum(lu.n.78.34 * 1 )+sum(lu.n.910.34 * 1 )+
+> # sum(lu.n.12.56 * 1 )+sum(lu.n.34.56 * 1 )+sum(lu.n.56.56 * 1 )+sum(lu.n.78.56 * 1 )+sum(lu.n.910.56 * 1 )+
+> # sum(lu.n.12.78 * 1 )+sum(lu.n.34.78 * 1 )+sum(lu.n.56.78 * 1 )+sum(lu.n.78.78 * 1 )+sum(lu.n.910.78 * 1 )+
+> # sum(lu.n.12.910 * 1 )+sum(lu.n.34.910 * 1 )+sum(lu.n.56.910 * 1 )+sum(lu.n.78.910 * 1 )+sum(lu.n.910.910 * 1)
+> 
+>  count_crops.sum <- length(unique(lu.map.12.12)) + length(unique(lu.map.34.12)) + length(unique(lu.map.56.12))+
++  length(unique(lu.map.78.12)) + length(unique(lu.map.910.12)) + length(unique(lu.map.12.34)) + length(unique(lu.map.34.34))+
++  length(unique(lu.map.56.34)) + length(unique(lu.map.78.34)) + length(unique(lu.map.910.34)) + length(unique(lu.map.12.56))+
++  length(unique(lu.map.34.56)) + length(unique(lu.map.56.56)) + length(unique(lu.map.78.56)) + length(unique(lu.map.910.56)) +
++  length(unique(lu.map.12.78)) + length(unique(lu.map.34.78)) + length(unique(lu.map.56.78)) + length(unique(lu.map.78.78)) +
++  length(unique(lu.map.910.78)) + length(unique(lu.map.12.910)) + length(unique(lu.map.34.910)) + length(unique(lu.map.56.910)) +
++  length(unique(lu.map.78.910)) + length(unique(lu.map.910.910))
+> 
+> count_crops.sum = as.numeric(
++   count_crops.sum
++ )
 > 
 > # write model output
 > write.table(count_crops.sum, "CDM_output.csv", append = FALSE, sep = ";", col.names = FALSE, row.names = FALSE)
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
 > 
 > 
 > 
@@ -1362,4 +1584,4 @@ Type 'q()' to quit R.
 > 
 > proc.time()
    user  system elapsed 
-   0.25    0.18    0.45 
+   0.17    0.14    0.31 

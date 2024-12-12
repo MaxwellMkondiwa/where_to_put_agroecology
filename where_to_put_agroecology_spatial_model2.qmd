@@ -1,0 +1,575 @@
+---
+title: "Where to put agroecology? A spatial land management optimization model"
+format: html
+editor: visual
+---
+
+# Introduction
+
+# Virtual Model
+
+## Land Use Map
+
+```{r}
+library(terra)
+
+r <- rast (ncol=10, nrow=10)
+
+ncell (r)
+
+# use the 'values' function, e.g.,
+set.seed(0)
+
+# Land use map
+values(r) <- rep(1:10, each = 10)
+xmax(r) <- 10
+xmin(r) <- 0
+ymax(r) <- 10
+ymin(r) <- 0
+
+plot(r)
+
+# write ascii files
+terra::writeRaster(r, filename="models/Crop_Diversity/map.asc",overwrite=TRUE)
+terra::writeRaster(r, filename="models/Crop_Suitability/map.asc",overwrite=TRUE)
+
+# Land suitability map for 1_5 crops
+r_suit_1_5 <- rast (ncol=10, nrow=10)
+
+ncell (r_suit_1_5)
+
+# use the 'values' function, e.g.,
+set.seed(0)
+values(r_suit_1_5) <- rep(0:3,4)
+r_suit_1_5=r_suit_1_5/4
+xmax(r_suit_1_5) <- 10
+xmin(r_suit_1_5) <- 0
+ymax(r_suit_1_5) <- 10
+ymin(r_suit_1_5) <- 0
+
+plot(r_suit_1_5)
+
+# write ascii files
+terra::writeRaster(r_suit_1_5, filename="models/Crop_Diversity/r_suit_1_5.asc",overwrite=TRUE)
+terra::writeRaster(r_suit_1_5, filename="models/Crop_Suitability/r_suit_1_5.asc",overwrite=TRUE)
+
+# Land suitability for 6 to 10 crops
+r_suit_6_10 <- rast (ncol=10, nrow=10)
+
+ncell (r_suit_6_10)
+
+# use the 'values' function, e.g.,
+set.seed(0)
+values(r_suit_6_10) <- rep(0:3,each=10)
+r_suit_6_10 <- r_suit_6_10/4
+xmax(r_suit_6_10) <- 10
+xmin(r_suit_6_10) <- 0
+ymax(r_suit_6_10) <- 10
+ymin(r_suit_6_10) <- 0
+
+plot(r_suit_6_10)
+
+# write ascii files
+terra::writeRaster(r_suit_6_10, filename="models/Crop_Diversity/r_suit_6_10.asc",overwrite=TRUE)
+terra::writeRaster(r_suit_6_10, filename="models/Crop_Suitability/r_suit_6_10.asc",overwrite=TRUE)
+
+
+
+```
+
+# Real Landscape Model
+
+## Land Use Map for Malawi
+
+```{r}
+library(geodata)
+library(sp)
+library(sf)
+
+landcoverall <- landcover("cropland", path=tempdir())
+
+malawi_aoi <- gadm(country="MWI", level=0, path="shp")
+plot(malawi_aoi)
+
+malawi_aoi_cropland <- mask(landcoverall,malawi_aoi)
+malawi_aoi_cropland <- crop(malawi_aoi_cropland,malawi_aoi)
+
+plot(malawi_aoi_cropland,main="Crop land percent")
+
+#writeRaster(malawi_aoi_cropland, "raster/malawi_aoi_cropland.tif")
+
+```
+
+## SPAM crop area and production value maps
+
+```{r}
+
+help(crop_spam)
+spamCrops()
+
+# Maize
+maize <- crop_spam("maize", "val_prod", path="raster", TRUE)
+maize_mwi <- mask(maize,malawi_aoi)
+maize_mwi <- crop(maize_mwi,malawi_aoi)
+plot(maize_mwi["maize_val_prod_all"], main="Maize value of production (US$)")
+
+
+# Pigeon pea
+pigeonpea <- crop_spam("pigeonpea", "val_prod", path="raster", TRUE)
+
+pigeonpea_mwi <- mask(pigeonpea ,malawi_aoi)
+pigeonpea_mwi <- crop(pigeonpea_mwi,malawi_aoi)
+
+pigeonpea_mwi_val_prod_all=pigeonpea_mwi["pigeonpea_val_prod_all"]
+
+plot(pigeonpea_mwi["pigeonpea_val_prod_all"],main="Pigeonpea value (US$)")
+
+## pp yield
+pigeonpea_yield <- crop_spam("pigeonpea", "yield", path="raster", TRUE)
+
+pigeonpea_yield_mwi <- mask(pigeonpea_yield ,malawi_aoi)
+pigeonpea_yield_mwi <- crop(pigeonpea_yield_mwi,malawi_aoi)
+
+pigeonpea_yield_mwi_all=pigeonpea_yield_mwi["pigeonpea_yield_all"]
+
+plot(pigeonpea_yield_mwi["pigeonpea_yield_all"],main="Pigeonpea yield (kg/ha)")
+
+## pp harvested area
+pigeonpea_harv_area <- crop_spam("pigeonpea", "harv_area", path="raster", TRUE)
+
+pigeonpea_harv_area_mwi <- mask(pigeonpea_harv_area ,malawi_aoi)
+pigeonpea_harv_area_mwi <- crop(pigeonpea_harv_area_mwi,malawi_aoi)
+
+pigeonpea_harv_area_mwi_all=pigeonpea_harv_area_mwi["pigeonpea_harv_area_all"]
+
+plot(pigeonpea_harv_area_mwi["pigeonpea_harv_area_all"],main="Pigeonpea harvested area (ha)")
+
+
+
+```
+
+## Crop suitability maps
+
+### Pigeon peas
+
+```{r}
+#  Pigeon pea suitability map
+library(sf)
+landunits=read_sf("LandUnits/MW_land_units/land_units_1st_code_fnl_ADD_specific.shp")
+
+
+# import the crop suitability maps
+
+landunits$T_Pigeonpe_suit[landunits$T_Pigeonpe%in%c("1","2")]="1:Highly suitable"
+landunits$T_Pigeonpe_suit[landunits$T_Pigeonpe%in%c("3","4")]="2:Moderately suitable"
+landunits$T_Pigeonpe_suit[landunits$T_Pigeonpe%in%c("5","6")]="3:Marginally suitable"
+landunits$T_Pigeonpe_suit[landunits$T_Pigeonpe%in%c("7")]="4:Not suitable"
+landunits$T_Pigeonpe_suit[landunits$I_Pigeonpe%in%c("9")]=NA
+landunits_sp=as_Spatial(landunits)
+
+library(tmap)
+tmap_mode("plot")
+pp_suitability_map=tm_shape(landunits_sp) +
+tm_polygons(col = "T_Pigeonpe_suit",palette = "-viridis", title = "Pigeopea suitability class",     textNA = "Suitability not estimated",border.alpha = 0.1) +
+  tm_layout(legend.outside = TRUE,title.size=4)+
+  tmap_options(check.and.fix = TRUE)
+pp_suitability_map
+
+
+
+# # Pigeon peas -------------------------------------------------------------
+# ## Traditional 
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("1","2")]=1
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("3","4")]=0.8
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("5","6")]=0.4
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("7")]=0
+landunits$T_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("9")]=NA
+# Improved
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("1","2")]=1
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("3","4")]=0.8
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("5","6")]=0.4
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("7")]=0
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("9")]=NA
+
+
+pigeon_pea_suit_prodn=terra::extract(pigeonpea_mwi_val_prod_all,vect(landunits),fun=mean)
+pigeon_pea_suit_yield=terra::extract(pigeonpea_yield_mwi_all,vect(landunits),fun=mean)
+pigeon_pea_suit_harv_area=terra::extract(pigeonpea_harv_area_mwi_all,vect(landunits),fun=mean)
+
+landunits$pigeonpea_val_prod_all=pigeon_pea_suit_prodn$pigeonpea_val_prod_all
+landunits$pigeonpea_yield_all=pigeon_pea_suit_yield$pigeonpea_yield_all
+landunits$pigeonpea_harv_area_all=pigeon_pea_suit_harv_area$pigeonpea_harv_area_all
+
+# Value of production regression
+
+pp_suit_value_reg=lm(pigeonpea_val_prod_all~T_Pigeonpe_suit_num,data=landunits)
+summary(pp_suit_value_reg)
+
+library(visreg)
+visreg(pp_suit_value_reg)
+
+# Yield model
+pp_suit_yield_reg=lm(pigeonpea_yield_all~T_Pigeonpe_suit_num,data=landunits)
+summary(pp_suit_yield_reg)
+
+library(visreg)
+visreg(pp_suit_yield_reg)
+
+# Area model
+pp_suit_harv_area_reg=lm(pigeonpea_harv_area_all~T_Pigeonpe_suit_num,data=landunits)
+summary(pp_suit_harv_area_reg)
+
+library(visreg)
+visreg(pp_suit_harv_area_reg)
+
+
+
+##
+
+library(ggpubr)
+library(dplyr)
+library(tidyverse) 
+PP_Errorplot=
+  landunits%>% 
+  drop_na(T_Pigeonpe_suit) %>%
+  ggerrorplot(x = "T_Pigeonpe_suit", y = "pigeonpea_harv_area_all",add = "mean", error.plot = "errorbar", color="black",size=1, ggtheme=theme_bw())+
+  labs(x="Pigeon pea suitability",y="Current harvested area (ha)")+
+  theme_bw(base_size = 16)+coord_flip()
+PP_Errorplot
+
+library(ggplot2)
+
+landunitspp=landunits%>% 
+  drop_na(T_Pigeonpe_suit)
+
+PP_sum_plot=  ggplot(landunitspp, aes(T_Pigeonpe_suit, pigeonpea_harv_area_all)) +
+  geom_bar(position='dodge', stat='summary', fun='sum')
+PP_sum_plot
+```
+
+## Maize
+```{r}
+# Maize -------------------------------------------------------------------- 
+## Traditional
+landunits$T_Maize_suit_num[landunits$T_Maize%in%c("1","2")]=3
+landunits$T_Maize_suit_num[landunits$T_Maize%in%c("3","4")]=2
+landunits$T_Maize_suit_num[landunits$T_Maize%in%c("5","6")]=1
+landunits$T_Maize_suit_num[landunits$T_Maize%in%c("7")]=0
+landunits$T_Maize_suit_num[landunits$I_Maize_l%in%c("9")]=NA
+
+## Improved long duration maize
+landunits$I_Maize_l_suit_num[landunits$I_Maize_l%in%c("1","2")]=3
+landunits$I_Maize_l_suit_num[landunits$I_Maize_l%in%c("3","4")]=2
+landunits$I_Maize_l_suit_num[landunits$I_Maize_l%in%c("5","6")]=1
+landunits$I_Maize_l_suit_num[landunits$I_Maize_l%in%c("7")]=0
+landunits$I_Maize_l_suit_num[landunits$I_Maize_l%in%c("9")]=NA
+
+## Improved short duration maize
+landunits$I_Maize_s_suit_num[landunits$I_Maize_s%in%c("1","2")]=3
+landunits$I_Maize_s_suit_num[landunits$I_Maize_s%in%c("3","4")]=2
+landunits$I_Maize_s_suit_num[landunits$I_Maize_s%in%c("5","6")]=1
+landunits$I_Maize_s_suit_num[landunits$I_Maize_s%in%c("7")]=0
+landunits$I_Maize_s_suit_num[landunits$I_Maize_l%in%c("9")]=NA
+
+pigeon_pea_suit_prodn=terra::extract(pigeonpea_mwi_val_prod_all,vect(landunits),fun=mean)
+
+
+```
+
+
+
+### Other crops
+```{r}
+
+# Suitability numbers for further analysis 
+
+# Traditional Wheat --------------------------------------------------------
+landunits$T_Wheat_suit_num[landunits$T_Wheat%in%c("1","2")]=3
+landunits$T_Wheat_suit_num[landunits$T_Wheat%in%c("3","4")]=1
+landunits$T_Wheat_suit_num[landunits$T_Wheat%in%c("5","6")]=1
+landunits$T_Wheat_suit_num[landunits$T_Wheat%in%c("7")]=0
+landunits$T_Wheat_suit_num[landunits$I_Wheat%in%c("9")]=NA
+
+# Improved wheat
+landunits$I_Wheat_suit_num[landunits$I_Wheat%in%c("1","2")]=3
+landunits$I_Wheat_suit_num[landunits$I_Wheat%in%c("3","4")]=1
+landunits$I_Wheat_suit_num[landunits$I_Wheat%in%c("5","6")]=1
+landunits$I_Wheat_suit_num[landunits$I_Wheat%in%c("7")]=0
+landunits$I_Wheat_suit_num[landunits$I_Wheat%in%c("9")]=NA
+
+# Small millet (finger millet)
+landunits$T_Finger_M_suit_num[landunits$T_Finger_M%in%c("1","2")]=3
+landunits$T_Finger_M_suit_num[landunits$T_Finger_M%in%c("3","4")]=2
+landunits$T_Finger_M_suit_num[landunits$T_Finger_M%in%c("5","6")]=1
+landunits$T_Finger_M_suit_num[landunits$T_Finger_M%in%c("7")]=0
+landunits$T_Finger_M_suit_num[landunits$T_Finger_M%in%c("9")]=NA
+
+# Sorghum
+landunits$T_Sorghum_suit_num[landunits$T_Sorghum%in%c("1","2")]=3
+landunits$T_Sorghum_suit_num[landunits$T_Sorghum%in%c("3","4")]=2
+landunits$T_Sorghum_suit_num[landunits$T_Sorghum%in%c("5","6")]=1
+landunits$T_Sorghum_suit_num[landunits$T_Sorghum%in%c("7")]=0
+landunits$T_Sorghum_suit_num[landunits$T_Sorghum%in%c("9")]=NA
+
+# Potato
+## Traditional
+landunits$T_Irish_po_suit_num[landunits$T_Irish_po%in%c("1","2")]=3
+landunits$T_Irish_po_suit_num[landunits$T_Irish_po%in%c("3","4")]=2
+landunits$T_Irish_po_suit_num[landunits$T_Irish_po%in%c("5","6")]=1
+landunits$T_Irish_po_suit_num[landunits$T_Irish_po%in%c("7")]=0
+landunits$T_Irish_po_suit_num[landunits$I_Irish_po%in%c("9")]=NA
+
+## Improved
+landunits$I_Irish_po_suit_num[landunits$I_Irish_po%in%c("1","2")]=3
+landunits$I_Irish_po_suit_num[landunits$I_Irish_po%in%c("3","4")]=2
+landunits$I_Irish_po_suit_num[landunits$I_Irish_po%in%c("5","6")]=1
+landunits$I_Irish_po_suit_num[landunits$I_Irish_po%in%c("7")]=0
+landunits$I_Irish_po_suit_num[landunits$I_Irish_po%in%c("9")]=NA
+
+# Sweet potato
+## Traditional
+landunits$T_Sweet_po_suit_num[landunits$T_Sweet_po%in%c("1","2")]=3
+landunits$T_Sweet_po_suit_num[landunits$T_Sweet_po%in%c("3","4")]=2
+landunits$T_Sweet_po_suit_num[landunits$T_Sweet_po%in%c("5","6")]=1
+landunits$T_Sweet_po_suit_num[landunits$T_Sweet_po%in%c("7")]=0
+landunits$T_Sweet_po_suit_num[landunits$T_Sweet_po%in%c("9")]=NA
+
+# Cassava
+## traditional
+landunits$T_Cassava_suit_num[landunits$T_Cassava%in%c("1","2")]=3
+landunits$T_Cassava_suit_num[landunits$T_Cassava%in%c("3","4")]=2
+landunits$T_Cassava_suit_num[landunits$T_Cassava%in%c("5","6")]=1
+landunits$T_Cassava_suit_num[landunits$T_Cassava%in%c("7")]=0
+landunits$T_Cassava_suit_num[landunits$I_Cassava%in%c("9")]=NA
+
+# Improved
+landunits$I_Cassava_suit_num[landunits$I_Cassava%in%c("1","2")]=3
+landunits$I_Cassava_suit_num[landunits$I_Cassava%in%c("3","4")]=2
+landunits$I_Cassava_suit_num[landunits$I_Cassava%in%c("5","6")]=1
+landunits$I_Cassava_suit_num[landunits$I_Cassava%in%c("7")]=0
+landunits$I_Cassava_suit_num[landunits$I_Cassava%in%c("9")]=NA
+
+# Bean
+## Traditional
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("1","2")]=3
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("3","4")]=2
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("5","6")]=1
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("7")]=0
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("9")]=NA
+
+# Improved
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("1","2")]=3
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("3","4")]=2
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("5","6")]=1
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("7")]=0
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("9")]=NA
+
+
+# Bean
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("1","2")]=3
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("3","4")]=2
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("5","6")]=1
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("7")]=0
+landunits$T_P_Bean_suit_num[landunits$T_P_Bean%in%c("9")]=NA
+
+# Pigeon peas -------------------------------------------------------------
+## Traditional 
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("1","2")]="3"
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("3","4")]="2"
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("5","6")]="1"
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("7")]="0"
+landunits$T_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("9")]=NA
+
+## Improved
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("1","2")]="3"
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("3","4")]="2"
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("5","6")]="1"
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("7")]="0"
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("9")]=NA
+
+
+
+```
+
+# 
+
+# GA package using mean-variance optimization as an example
+
+```{r}
+library("GA")
+
+
+library(quantmod)
+
+myStocks <- c("AAPL", "XOM", "GOOGL", "MSFT", "GE", "JNJ", "WMT", "CVX", "PG", "WFC")
+
+getSymbols(myStocks, src = "yahoo")
+
+returns <- lapply(myStocks, function(s)
+monthlyReturn(eval(parse(text = s)),
+subset = "2013::2014"))
+
+returns <- do.call(cbind,returns)
+colnames(returns) <- myStocks
+
+library(timeSeries)
+plot(as.timeSeries(returns), at = "chic", minor.ticks="month",
+mar.multi = c(0.2, 5.1, 0.2, 1.1), oma.multi = c(4, 0, 4, 0),
+col = .colorwheelPalette(10), cex.lab = 0.8, cex.axis = 0.8)
+title("Portfolio Returns")
+
+
+nStocks <- ncol(returns) # number of portfolio assets
+R <- colMeans(returns) # average monthly returns
+S <- cov(returns) # covariance matrix of monthly returns
+s <- sqrt(diag(S)) # volatility of monthly returns
+plot(s, R, type = "n", panel.first = grid(),xlab = "Std. dev. monthly returns", ylab = "Average monthly returns") 
+text(s, R, names(R), col = .colorwheelPalette(10), font = 2)
+
+## Using quadratic programming
+library(fPortfolio)
+library(timeSeries)
+library(lubridate)
+library(psych)
+
+returns_t <-timeSeries(returns)
+
+
+covOGKEstimate <- covOGKEstimator(returns_t)
+fastCovOGKEstimator <- function(x, spec = NULL, ...) covOGKEstimate
+
+covOGKSpec <- portfolioSpec()
+setEstimator(covOGKSpec) <- "fastCovOGKEstimator"
+setNFrontierPoints(covOGKSpec) <- 5
+
+covOGKFrontier <- portfolioFrontier(
+data = returns_t, spec = covOGKSpec)
+print(covOGKFrontier)
+
+setNFrontierPoints(covOGKSpec) <- 20
+covOGKFrontier <- portfolioFrontier(
+data = returns_t, spec = covOGKSpec)
+tailoredFrontierPlot(
+covOGKFrontier,
+mText = "OGK Robustified MV Portfolio",
+risk = "Sigma")
+
+weightsPlot(covOGKFrontier,mtext = FALSE)
+
+
+yield_return=getTargetReturn(covOGKFrontier)
+yield_risk <- getTargetRisk(covOGKFrontier)
+yield_wts <- getWeights(covOGKFrontier)
+
+yield_frontier = cbind(yield_return, yield_risk, yield_wts)
+
+
+library(htmltools)
+library(fontawesome)
+library(reactable)
+
+htmltools::browsable(
+  tagList(
+    tags$button(
+      tagList(fontawesome::fa("download"), "Download as CSV"),
+      onclick = "Reactable.downloadDataCSV('yield_frontier', 'yield_frontier.csv')"
+    ),
+
+    reactable(
+      yield_frontier,
+      searchable = TRUE,
+      defaultPageSize = 12,
+      elementId = "yield_frontier"
+    )
+  )
+)
+
+
+
+
+
+
+
+
+
+# Genetic Algorithm
+weights <- function (w) # normalised weights
+{drop(w/sum(w))}
+
+ExpReturn <- function (w) # expected return
+{sum(weights(w)*R)}
+
+VarPortfolio <- function (w) # objective function
+{w <- weights (w)
+drop (w%*%S%*%w)}
+
+## fitness function 
+
+fitness <- function (w)   # fitness function
+{ER <-ExpReturn(w)-0.01
+penalty <-if (ER<0) 100*ER^2 else 0
+-(VarPortfolio(w)+penalty)}
+
+GA <- ga(type = "real-valued", fitness = fitness,
+min = rep(0, nStocks), max = rep(1, nStocks), names = myStocks,
+maxiter = 1000, run = 200, optim = TRUE)
+
+summary(GA)
+
+plot(GA)
+
+(w <- weights(GA@solution))
+ExpReturn(w)
+VarPortfolio(w)
+barplot(w, xlab = "Stocks", ylab = "Portfolio weights",
+cex.names = 0.7, col = .colorwheelPalette(10))
+
+# using NSGA-II
+library(rmoo)
+library(ecr)
+library(emoa)
+
+ga_nsga2 <- nsga2(type = "real-valued",
+               fitness = fitness,
+               lower = c(0,0,0,0,0,0,0,0,0,0),
+               upper = c(1,1,1,1,1,1,1,1,1,1),
+               popSize = 200,
+               monitor = FALSE,
+               maxiter = 1000)
+```
+
+# Genetic Algorithm
+
+```{r}
+library(rmoo)
+library(ecr)
+library(emoa)
+
+#Example
+#Two Objectives - Real Valued
+zdt1 <- function (x) {
+ if (is.null(dim(x))) {
+   x <- matrix(x, nrow = 1)
+ }
+ n <- ncol(x)
+ g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
+ return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
+}
+
+#Not run:
+## Not run: 
+result <- nsga(type = "real-valued",
+               fitness = zdt1,
+               lower = c(0,0),
+               upper = c(1,1),
+               popSize = 100,
+               dshare = 1,
+               monitor = FALSE,
+               maxiter = 500)
+
+## End(Not run)
+
+
+
+
+```

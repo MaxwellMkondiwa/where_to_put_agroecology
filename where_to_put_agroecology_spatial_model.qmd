@@ -20,6 +20,7 @@ ncell (r)
 # use the 'values' function, e.g.,
 set.seed(0)
 
+# Land use map
 values(r) <- rep(1:10, each = 10)
 xmax(r) <- 10
 xmin(r) <- 0
@@ -31,6 +32,48 @@ plot(r)
 # write ascii files
 terra::writeRaster(r, filename="models/Crop_Diversity/map.asc",overwrite=TRUE)
 terra::writeRaster(r, filename="models/Crop_Suitability/map.asc",overwrite=TRUE)
+
+# Land suitability map for 1_5 crops
+r_suit_1_5 <- rast (ncol=10, nrow=10)
+
+ncell (r_suit_1_5)
+
+# use the 'values' function, e.g.,
+set.seed(0)
+values(r_suit_1_5) <- rep(0:3,4)
+r_suit_1_5=r_suit_1_5/4
+xmax(r_suit_1_5) <- 10
+xmin(r_suit_1_5) <- 0
+ymax(r_suit_1_5) <- 10
+ymin(r_suit_1_5) <- 0
+
+plot(r_suit_1_5)
+
+# write ascii files
+terra::writeRaster(r_suit_1_5, filename="models/Crop_Diversity/r_suit_1_5.asc",overwrite=TRUE)
+terra::writeRaster(r_suit_1_5, filename="models/Crop_Suitability/r_suit_1_5.asc",overwrite=TRUE)
+
+# Land suitability for 6 to 10 crops
+r_suit_6_10 <- rast (ncol=10, nrow=10)
+
+ncell (r_suit_6_10)
+
+# use the 'values' function, e.g.,
+set.seed(0)
+values(r_suit_6_10) <- rep(0:3,each=10)
+r_suit_6_10 <- r_suit_6_10/4
+xmax(r_suit_6_10) <- 10
+xmin(r_suit_6_10) <- 0
+ymax(r_suit_6_10) <- 10
+ymin(r_suit_6_10) <- 0
+
+plot(r_suit_6_10)
+
+# write ascii files
+terra::writeRaster(r_suit_6_10, filename="models/Crop_Diversity/r_suit_6_10.asc",overwrite=TRUE)
+terra::writeRaster(r_suit_6_10, filename="models/Crop_Suitability/r_suit_6_10.asc",overwrite=TRUE)
+
+
 
 ```
 
@@ -70,8 +113,14 @@ maize_mwi <- mask(maize,malawi_aoi)
 maize_mwi <- crop(maize_mwi,malawi_aoi)
 plot(maize_mwi["maize_val_prod_all"], main="Maize value of production (US$)")
 
-# Pigeon peas
 
+# Pigeon pea
+pigeonpea <- crop_spam("pigeonpea", "val_prod", path="raster", TRUE)
+
+pigeonpea_mwi <- mask(pigeonpea ,malawi_aoi)
+pigeonpea_mwi <- crop(pigeonpea_mwi,malawi_aoi)
+
+plot(pigeonpea_mwi["pigeonpea_val_prod_all"],main="Pigeonpea value (US$)")
 
 
 
@@ -101,6 +150,43 @@ tm_polygons(col = "T_Pigeonpe_suit",palette = "-viridis", title = "Pigeopea suit
   tm_layout(legend.outside = TRUE,title.size=4)+
   tmap_options(check.and.fix = TRUE)
 pp_suitability_map
+
+
+
+# # Pigeon peas -------------------------------------------------------------
+# ## Traditional 
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("1","2")]=1
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("3","4")]=0.8
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("5","6")]=0.4
+landunits$T_Pigeonpe_suit_num[landunits$T_Pigeonpe%in%c("7")]=0
+landunits$T_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("9")]=NA
+# Improved
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("1","2")]=1
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("3","4")]=0.8
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("5","6")]=0.4
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("7")]=0
+landunits$I_Pigeonpe_suit_num[landunits$I_Pigeonpe%in%c("9")]=NA
+
+
+
+# Extract production value for each suitability class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Suitability numbers for further analysis 
 

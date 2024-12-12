@@ -38,17 +38,86 @@ Type 'q()' to quit R.
 > 
 > # read in ascii files
 > lu.map <- read.table("map.asc", h=F, skip=6, sep=" ")
+> suit.map_1_5 <- read.table("r_suit_1_5.asc", h = F, skip = 6, sep = " ")
+> suit.map_6_10 <- read.table("r_suit_6_10.asc", h = F, skip = 6, sep = " ")
 > 
 > # array index for arable land
 > arable.idx <- which(lu.map <= 10 & lu.map > 0, arr.ind=T)
+> arable.idx1 <- which(lu.map <= 5 & lu.map > 0, arr.ind = T)
+> arable.idx2 <- which(lu.map <= 10 & lu.map > 5, arr.ind = T)
 > 
 > # calculate crop yield as logarithmic function of intensity and soil fertility
-> yield <- lu.map[arable.idx] 
+> yield_1 <- lu.map[arable.idx1]*suit.map_1_5[arable.idx1] 
+> yield_2 <- lu.map[arable.idx2]*suit.map_6_10[arable.idx2] 
+> 
+> yield_1[is.na(yield_1)] <- 0
+> yield_1.sum <- sum(yield_1)
+> 
+> yield_2[is.na(yield_2)] <- 0
+> yield_2.sum <- sum(yield_2)
+> 
+> yield.sum <- yield_1.sum + yield_2.sum
+> 
+> yield <- lu.map[arable.idx]
 > yield[is.na(yield)] <- 0
-> yield.sum <- sum(yield)
+> 
+> #yield.sum <- sum (yield)
 > 
 > # write model output
 > write.table(yield.sum , "CSM_output.csv",append=FALSE ,sep =";",col.names=FALSE ,row.names=FALSE)
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
 > 
 > 
 > 
@@ -1361,4 +1430,4 @@ Type 'q()' to quit R.
 > 
 > proc.time()
    user  system elapsed 
-   0.29    0.20    0.59 
+   0.15    0.17    0.31 
